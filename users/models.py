@@ -1,11 +1,24 @@
 from django.db import models
 
+
 class User(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    email = models.EmailField()
-    age = models.IntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=100)
+
     def __str__(self):
-        return self.first_name
-        
+        return self.name
+
+
+class Task(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+
+    assigned_to = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='tasks'
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
